@@ -48,3 +48,19 @@ cursor.execute("""
                );
 
 """)
+
+conn.commit()
+conn.close() # commits changes and closes the database
+
+# open database to insert data into it
+
+conn = sqlite3.connect(db_name)
+cursor = conn.cursor()
+
+#creates a tuple inside a list
+users = [
+    ("Alice Smith", "alice@example.com","079621231234")
+    ("Bob Jones","bob@example.com","078457582344")
+    ("Charlie Lee", "charlie@bobmail.com","075959595404")
+
+]
