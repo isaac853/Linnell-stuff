@@ -15,7 +15,8 @@ cursor = conn.cursor()
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
+        firstname TEXT NOT NULL,
+        surname TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         phone TEXT UNIQUE
         
@@ -59,9 +60,9 @@ cursor = conn.cursor()
 
 #creates a tuple inside a list
 users = [
-    ("Alice Smith", "alice@example.com","079621231234"),
-    ("Bob Jones","bob@example.com","078457582344"),
-    ("Charlie Lee", "charlie@bobmail.com","075959595404")
+    ("Alice", "Smith", "alice@example.com","079621231234"),
+    ("Bob", "Jones","bob@example.com","078457582344"),
+    ("Charlie", "Lee", "charlie@bobmail.com","075959595404")
 
 ]
 
@@ -79,9 +80,25 @@ bookings = [
 
 #insert the data from the lists into the data structure
 
-cursor.executemany("INSERT INTO users (name, email, phone) VALUES (?,?,?)", users)
+cursor.executemany("INSERT INTO users (firstname, surname, email, phone) VALUES (?,?,?,?)", users)
 cursor.executemany("INSERT INTO mini_buses (plate_number, capacity) VALUES (?,?)", buses)
 cursor.executemany("INSERT INTO bookings (user_id, bus_id, booking_date) VALUES (?,?,?)", bookings)
 
 conn.commit()
 conn.close()
+
+
+conn = sqlite3.connect(db_name)
+cursor = conn.cursor()
+
+query = """SELECT * 
+            FROM mini_buses
+            WHERE capacity = 10 """
+
+cursor.execute(query)
+
+results = cursor.fetchall()
+
+print(f"results {results[0][0]} with the registration {results [0][1]} has a capacity of {results[0][1]}")
+
+#have query in a seperate file so you do not have that unique constrain failed error
